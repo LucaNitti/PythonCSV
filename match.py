@@ -29,19 +29,21 @@ result_filter = pd.DataFrame()
 len_data = data_with_value.__len__()
 index = 1
 for data in data_with_value:
+    data = str(data)
     sys.stdout.write("\033[F") #back to previous line
     #sys.stdout.write("\033[K")
     sys.stdout.write('analyze {}/{}'.format(index,len_data))
     #sys.stdout.flush()
 
     index = index + 1
-    filtered_record = file_to_filter[file_to_filter[column_name_to_filter].str.contains(data) == True]
+    print file_to_filter[column_name_to_filter]
+    filtered_record = file_to_filter[file_to_filter[column_name_to_filter].apply(str).str.contains(data) == True]
     if first_or_all == 'first':
         filtered_record = filtered_record.iloc[0]
 
     result_filter = result_filter.append(filtered_record)
 
-result_filter.to_csv('out_merge.csv',mode='a', index=False)
+result_filter.to_csv('out.csv',mode='a', index=False)
 
 print "File Created "
 print "done"
